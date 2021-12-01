@@ -1,2 +1,3 @@
-# one-time-note
-This is a service providing functionality to store a note until it is accessed exactly one time.
+# One-Time-Note
+
+This is a service providing functionality to store notes encrypted on our machines. Once a note was accessed it is removed. Immediately. Forever.
