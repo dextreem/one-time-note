@@ -1,0 +1,6 @@
+{
+    "APP_PORT": 3000,
+    "UPLOAD_FOLDER": "notes",
+    "NOTE_ID_BYTE_SIZE": 32,
+    "FIND_FREE_ID_RETRIES" : 5
+}
