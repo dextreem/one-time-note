@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <title>You Got A Note</title>
+    <link rel="stylesheet" href="styles/showNote.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+      crossorigin="anonymous"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <h1>Someone sent you an encrypted Note!</h1>
+    <p>
+      This note was encrypted with a password and anonymously stored on our
+      machines. While reading this, it is already removed and gone forever.
+      Reloading the page won't find the note.
+    </p>
+    <p>
+      The password is required to encrypt the message. If you enter a wrong
+      password, the message stays invisible.
+    </p>
+    <div class="form-group">
+      <input id="password" name="password" placeholder="Password" />
+    </div>
+    <div class="form-group">
+      <button class="btn" onclick="decryptNote()">Decrypt!</button>
+    </div>
+    <div class="form-group">
+      <textarea
+        class="form-control"
+        id="note"
+        name="note"
+        rows="5"
+        disabled
+      ></textarea>
+    </div>
+    <button class="btn" onclick="redirectToCreateNote()">Create Note!</button>
+    <span id="encryptedNote" hidden></span>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>One-Time-Note expired!</h2>
+        </div>
+        <div class="modal-body">
+          <p>
+            This note was already accessed. Therefore, it is removed from our
+            machines and there is no way to get it back. But don't worry, you
+            can simply create a new one.
+          </p>
+          <button class="btn" onclick="redirectToCreateNote()">Create Note!</button>
+        </div>
+        <div class="modal-footer">
+          <p>
+            Please support us on
+            <a href="https://github.com/dextreem/one-time-note">
+              <i class="fab fa-github icon"></i>
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+  <script
+    defer
+    src="https://pro.fontawesome.com/releases/v5.10.0/js/all.js"
+    integrity="sha384-G/ZR3ntz68JZrH4pfPJyRbjW+c0+ojii5f+GYiYwldYU69A+Ejat6yIfLSxljXxD"
+    crossorigin="anonymous"
+  ></script>
+  <script src="/scripts/showNote.js"></script>
+  <script>
+    window.onload = function () {
+      getNote();
+    };
+  </script>
+</html>

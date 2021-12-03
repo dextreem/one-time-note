@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <title>Create New Note</title>
+    <link rel="stylesheet" href="styles/createNote.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+      crossorigin="anonymous"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <h1>Drop a Note</h1>
+    <p>
+      This note will be encoded and stored on our machines. You will get a URL
+      allowing you to access the note exactly once. After this, the message is
+      gone. Immediately. Forever.
+    </p>
+    <div class="form-group">
+      <textarea
+        class="form-control"
+        id="note"
+        name="note"
+        rows="5"
+        placeholder="Note"
+      ></textarea>
+    </div>
+    <div class="form-group">
+      <input id="password" name="password" placeholder="Password" />
+    </div>
+    <div class="form-group">
+      <button class="btn" onclick="storeNote()">Create Note!</button>
+    </div>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>Your One-Time-Note is ready to use</h2>
+        </div>
+        <div class="modal-body">
+          <p>Copy the following link and send it to a friend.</p>
+          <input type="text" value="Hello World" id="urlInput" disabled />
+          <button class="icon-button btn" onclick="copyUrl()">
+            <i class="fas fa-clipboard icon-grey" onclick="copyUrl()"></i>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <p>
+            Please support us on
+            <a href="https://github.com/dextreem/one-time-note">
+              <i class="fab fa-github icon"></i>
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+  <script
+    defer
+    src="https://pro.fontawesome.com/releases/v5.10.0/js/all.js"
+    integrity="sha384-G/ZR3ntz68JZrH4pfPJyRbjW+c0+ojii5f+GYiYwldYU69A+Ejat6yIfLSxljXxD"
+    crossorigin="anonymous"
+  ></script>
+  <script src="/scripts/createNote.js"></script>
+</html>

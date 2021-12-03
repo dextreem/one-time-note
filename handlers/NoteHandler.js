@@ -12,13 +12,13 @@ class NoteHandler {
 
     async _getNoteIfExists(noteID) {
         const notePath = this._getNotePathByNoteID(noteID)
-        this._makeSureNoteExists(notePath)
+        this._makeSureNoteExists(notePath, noteID)
         return await this._getAndDeleteNote(notePath)
     }
 
-    _makeSureNoteExists(notePath) {
+    _makeSureNoteExists(notePath, noteID) {
         if (!this._doesNoteExist(notePath)) {
-            throw { status: StatusCodes.NOT_FOUND, msg: `No  file with ID ${notePath} found!` }
+            throw { status: StatusCodes.NOT_FOUND, msg: `No note with ID ${noteID} found!` }
         }
     }
 
