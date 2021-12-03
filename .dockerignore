@@ -1,0 +1,16 @@
+db
+docs
+examples
+node_modules
+test
+*.bat
+*.sh
+npm-debug.log
+Dockerfile*
+docker-compose*
+.dockerignore
+.git
+.gitignore
+README.md
+LICENSE
+.vscode
