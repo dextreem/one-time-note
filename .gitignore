@@ -1,6 +1,7 @@
 package-lock.json
 notes/
 notes_test/
+otn_data
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,visualstudio

@@ -1,0 +1,9 @@
+version: '3.1'
+
+services:
+  one-time-note:
+    image: one-time-note
+    ports:
+      - "3000:3000"
+    volumes:
+      - './otn_data:/usr/src/app/notes'
