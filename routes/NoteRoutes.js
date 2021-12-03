@@ -31,7 +31,7 @@ async function createNote(req, res) {
 function handleNoteError(err, res) {
     if (!err.status) err.status = StatusCodes.INTERNAL_SERVER_ERROR
     if (!err.msg) err.msg = defaultMessage
-    res.send(err)
+    res.status(err.status).send(err)
 }
 
 module.exports = router
