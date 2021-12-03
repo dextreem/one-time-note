@@ -30,7 +30,7 @@ var span = document.getElementsByClassName("close")[0];
 
 function makeModalVisible(noteId) {
     console.log(noteId)
-    if (noteId){
+    if (noteId) {
         document.getElementById("urlInput").value = window.location + "?noteId=" + noteId
     }
     modal.style.display = "block";
@@ -53,4 +53,12 @@ function copyUrl() {
     copyText.select();
     copyText.setSelectionRange(0, 99999);
     navigator.clipboard.writeText(copyText.value);
-  }
+}
+
+document.getElementById("password").addEventListener("keyup", function (event) {
+    const key = (event.key || event.keyCode)
+    if (key === 'Enter' || key === 13) {
+        event.preventDefault();
+        storeNote()
+    }
+});

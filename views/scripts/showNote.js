@@ -73,3 +73,11 @@ window.onclick = function (event) {
 function redirectToCreateNote() {
     window.location.href = "/"
 }
+
+document.getElementById("password").addEventListener("keyup", function (event) {
+    const key = (event.key || event.keyCode)
+    if (key === 'Enter' || key === 13) {
+        event.preventDefault();
+        decryptNote()
+    }
+});
