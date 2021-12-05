@@ -7,6 +7,7 @@ const { StatusCodes } = require('http-status-codes');
 class NoteHandler {
 
     async handleGetNote(noteID) {
+        await this._logNoteEvent('getNote')
         return await this._getNoteIfExists(noteID)
     }
 
@@ -35,6 +36,7 @@ class NoteHandler {
     async handleCreateNote(noteText) {
         const noteID = this._getFreeNoteID()
         await fsPromises.writeFile(this._getNotePathByNoteID(noteID), noteText)
+        await this._logNoteEvent('createNote')
         return noteID
     }
 
@@ -55,6 +57,15 @@ class NoteHandler {
 
     _getNotePathByNoteID(noteID) {
         return `${config.UPLOAD_FOLDER}/${noteID}.otn`
+    }
+
+    async _logNoteEvent(type) {
+        const fileName = `${config.UPLOAD_FOLDER}/_counter_${type}.log`
+        await fsPromises.appendFile(fileName, `${this._getCurrentDateTime()}\n`)
+    }
+
+    _getCurrentDateTime() {
+        return new Date().toLocaleString()
     }
 
 }
