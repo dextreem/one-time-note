@@ -9,6 +9,7 @@
       crossorigin="anonymous"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
   </head>
   <body>
     <h1>Someone sent you an encrypted Note!</h1>
@@ -36,9 +37,15 @@
         disabled
       ></textarea>
     </div>
-    <button class="btn" onclick="redirectToCreateNote()">Create Note!</button>
-    <span id="encryptedNote" hidden></span>
-
+    <div>
+      <button class="btn" onclick="redirectToCreateNote()">Create Note!</button>
+    </div>
+    <div>
+      <span id="encryptedNote" hidden></span>
+    </div>
+    <br/>
+    <div>
+      <a class="github-button" data-show-count="true" href="https://github.com/dextreem/one-time-note" data-icon="octicon-star" aria-label="Star dextreem/one-time-note on GitHub">Star</a>
     <div id="myModal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
