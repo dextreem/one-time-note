@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+  <head>
+    <title>Neue Notiz erstellen</title>
+    <link rel="stylesheet" href="styles/createNote.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </head>
+  <body>
+    <h1>Legen Sie eine Notiz ab</h1>
+    <p>Diese Notiz wird verschlüsselt und auf unseren Maschinen gespeichert. Sie erhalten eine URL, mit der Sie genau einmal auf die Notiz zugreifen können. Danach ist die Meldung weg. Sofort. Für immer.</p>
+    <div class="form-group">
+      <textarea class="form-control" id="note" name="note" rows="5" placeholder="Note"></textarea>
+    </div>
+    <div class="form-group">
+      <input id="password" type="password" name="password" placeholder="Password">
+    </div>
+    <div class="form-group">
+      <button class="btn" onclick="storeNote()">Hinweis erstellen!</button>
+    </div>
+    <div><a class="github-button" data-show-count="true" href="https://github.com/dextreem/one-time-note" data-icon="octicon-star" aria-label="Star dextreem/one-time-note on GitHub">Stern</a></div>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">×</span>
+          <h2>Ihre One-Time-Note ist einsatzbereit</h2>
+        </div>
+        <div class="modal-body">
+          <p>Kopieren Sie den folgenden Link und senden Sie ihn an einen Freund.</p>
+          <input type="text" value="Hello World" id="urlInput" disabled>
+          <button class="icon-button btn" onclick="copyUrl()">
+            <i class="fas fa-clipboard icon-grey" onclick="copyUrl()"></i>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <p>Bitte unterstützen Sie uns weiter<a href="https://github.com/dextreem/one-time-note"></a><i class="fab fa-github icon"></i></p>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+  <script defer src="https://pro.fontawesome.com/releases/v5.10.0/js/all.js" integrity="sha384-G/ZR3ntz68JZrH4pfPJyRbjW+c0+ojii5f+GYiYwldYU69A+Ejat6yIfLSxljXxD" crossorigin="anonymous"></script>
+  <script src="/scripts/createNote.js"></script>
+</html>
