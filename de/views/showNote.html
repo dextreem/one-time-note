@@ -8,26 +8,36 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </head>
   <body>
-    <h1>Someone sent you an encrypted Note!</h1>
+    <h1>Jemand hat Ihnen eine verschlüsselte Notiz geschickt!</h1>
     <p>Diese Notiz wurde mit einem Passwort verschlüsselt und anonym auf unseren Maschinen gespeichert. Während Sie dies lesen, ist es bereits entfernt und für immer verschwunden. Beim Neuladen der Seite wird die Notiz nicht gefunden.</p>
-    <p>       The password is required to encrypt the message. If you enter a wrong       password, the message stays invisible.     </p>
+    <p>Das Passwort wird benötigt, um die Nachricht zu verschlüsseln. Wenn Sie ein falsches Passwort eingeben, bleibt die Nachricht unsichtbar.</p>
     <div class="form-group">
       <input id="password" name="password" type="password" placeholder="Password">
     </div>
     <div class="form-group">
-      <button class="btn" onclick="decryptNote()">Decrypt!</button>
+      <button class="btn" onclick="decryptNote()">Entschlüsseln!</button>
     </div>
     <div class="form-group">
       <textarea class="form-control" id="note" name="note" rows="5" disabled></textarea>
     </div>
     <div>
-      <button class="btn" onclick="redirectToCreateNote()">Create Note!</button>
+      <button class="btn" onclick="redirectToCreateNote()">Hinweis erstellen!</button>
     </div>
     <div>
       <span id="encryptedNote" hidden></span>
     </div>
     <br>
-    <div>       <a class="github-button" data-show-count="true" href="https://github.com/dextreem/one-time-note" data-icon="octicon-star" aria-label="Star dextreem/one-time-note on GitHub">Star</a>     <div id="myModal" class="modal">       <div class="modal-content">         <div class="modal-header">           <span class="close">×</span>           <h2>One-Time-Note expired!</h2>         </div>         <div class="modal-body">           <p>             This note was already accessed. Therefore, it is removed from our             machines and there is no way to get it back. But don't worry, you             can simply create a new one.           </p>           <button class="btn" onclick="redirectToCreateNote()">Create Note!</button>         </div>         <div class="modal-footer">           <p>             Please support us on             <a href="https://github.com/dextreem/one-time-note">               <i class="fab fa-github icon"></i>             </a>           </p>         </div>       </div>     </div>   </div>
+    <div>
+<a class="github-button" data-show-count="true" href="https://github.com/dextreem/one-time-note" data-icon="octicon-star" aria-label="Star dextreem/one-time-note on GitHub">Stern</a><div id="myModal" class="modal"><div class="modal-content">
+<div class="modal-header"> <span class="close">×</span><h2> One-Time-Note abgelaufen!</h2>
+</div>
+<div class="modal-body">
+<p> Auf diese Notiz wurde bereits zugegriffen. Daher wird es von unseren Maschinen entfernt und es gibt keine Möglichkeit, es zurückzubekommen. Aber keine Sorge, Sie können einfach eine neue erstellen.</p> <button class="btn" onclick="redirectToCreateNote()">Hinweis erstellen!</button>
+</div>
+<div class="modal-footer"><p> Bitte unterstützen Sie uns weiter</p></div>
+</div></div>
+<a href="https://github.com/dextreem/one-time-note"></a><i class="fab fa-github icon"></i>
+</div>
 </body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
   <script defer src="https://pro.fontawesome.com/releases/v5.10.0/js/all.js" integrity="sha384-G/ZR3ntz68JZrH4pfPJyRbjW+c0+ojii5f+GYiYwldYU69A+Ejat6yIfLSxljXxD" crossorigin="anonymous"></script>
