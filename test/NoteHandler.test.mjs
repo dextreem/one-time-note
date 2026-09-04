@@ -3,6 +3,7 @@ import chaiHttp, { request } from 'chai-http'
 import assert from 'node:assert'
 import fs from 'node:fs'
 import { StatusCodes } from 'http-status-codes'
+import { encryptNote, decryptNote } from '../views/scripts/otnCrypto.mjs'
 
 // ESM evaluates every static import before the first statement of this file
 // runs, and both `config` and the app read NODE_ENV the moment they are
@@ -150,6 +151,52 @@ describe('Note', () => {
             const served = responses.filter(res => res.body.noteText === noteText)
             assert.strictEqual(served.length, 1, 'exactly one concurrent reader may receive the note')
             assert.strictEqual(testFileExists(noteId), false, 'note file must be gone afterwards')
+        })
+    })
+
+    // The two halves of the service meet here: the browser's encryption and
+    // the server's one-time storage. This is the promise the README makes.
+    describe(`End to end: the server stores only ciphertext`, () => {
+        const password = 'a password the server never sees'
+
+        it('round trips a real encrypted note through create and read', async () => {
+            const noteText = 'the actual secret'
+            const stored = await encryptNote(noteText, password)
+
+            const create = await request.execute(server)
+                .post(NOTES_ENDPOINT)
+                .send({ noteText: stored })
+            create.should.have.status(StatusCodes.OK)
+
+            const read = await request.execute(server)
+                .get(`${NOTES_ENDPOINT}/${create.body.noteId}`)
+            read.should.have.status(StatusCodes.OK)
+            assert.strictEqual(await decryptNote(read.body.noteText, password), noteText)
+        })
+
+        it('never writes the plaintext or the password to disk', async () => {
+            const noteText = 'PLAINTEXT-CANARY-9f3a'
+            const stored = await encryptNote(noteText, password)
+
+            const create = await request.execute(server)
+                .post(NOTES_ENDPOINT)
+                .send({ noteText: stored })
+            const onDisk = fs.readFileSync(`${config.UPLOAD_FOLDER}/${create.body.noteId}.otn`, 'utf-8')
+
+            assert.ok(!onDisk.includes(noteText), 'the plaintext must never reach the disk')
+            assert.ok(!onDisk.includes(password), 'the password must never reach the disk')
+            assert.ok(onDisk.startsWith('otn1:'), 'the stored note should be the encrypted form')
+        })
+
+        it('leaves a reader with nothing usable if they do not know the password', async () => {
+            const stored = await encryptNote('the actual secret', password)
+            const create = await request.execute(server)
+                .post(NOTES_ENDPOINT)
+                .send({ noteText: stored })
+
+            const read = await request.execute(server)
+                .get(`${NOTES_ENDPOINT}/${create.body.noteId}`)
+            await assert.rejects(() => decryptNote(read.body.noteText, 'guessed wrong'))
         })
     })
 })

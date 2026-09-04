@@ -98,3 +98,8 @@ body{
 textarea{
     resize: vertical;
 }
+
+.error {
+  color: #a94442;
+  font-weight: bold;
+}

@@ -12,6 +12,57 @@ This project is built using express.js on node.js. No other major framework is u
 
 Notes are encrypted on client side only for privacy reasons. This means the backend does not check whether the note is actually encrypted or not. If you are not using the web UI you need to make sure your notes are properly encrypted.
 
+## Encryption
+
+`views/scripts/otnCrypto.mjs` holds everything that touches a note in the
+clear. It uses the browser's native WebCrypto, so there is no crypto library
+to trust or keep patched:
+
+- **AES-256-GCM** for the note. GCM authenticates the ciphertext, so a wrong
+  password or an altered note is detected and reported instead of quietly
+  producing garbage.
+- **PBKDF2-HMAC-SHA256, 600,000 iterations** (OWASP's current figure) with a
+  random 16-byte salt per note, to turn the password into a key. Roughly 45 ms
+  on a desktop.
+- A random 12-byte IV per note, so encrypting the same note twice never
+  produces the same stored bytes.
+
+A stored note looks like this:
+
+```
+otn1:<base64( salt[16] || iv[12] || AES-GCM ciphertext+tag )>
+```
+
+The `otn1:` prefix *is* the parameter set. Changing the KDF, the iteration
+count or the cipher means a new prefix (`otn2:`), so notes already in flight
+stay readable while the new format takes over.
+
+WebCrypto requires a secure context. That covers HTTPS and localhost, so it
+only matters if you open a development container over plain HTTP using a LAN
+address -- the page then refuses to encrypt rather than storing something
+unprotected.
+
+### Notes created before the WebCrypto switch
+
+Older notes were encrypted with CryptoJS AES, which derives its key using
+OpenSSL's `EVP_BytesToKey`: **MD5, a single iteration**. That is weak against
+brute-forcing a short password, and CBC gave no integrity check at all -- a
+wrong password used to display the raw ciphertext.
+
+Those notes still open. `decryptNote()` routes anything without the `otn1:`
+prefix to the legacy decoder, and `showNote.html` still loads CryptoJS for it
+(now pinned with the `integrity` hash cdnjs publishes for that exact file).
+New notes never take that path.
+
+Notes are single-read and short-lived, so once no note predating the switch
+can plausibly still be unread -- a couple of weeks is plenty -- delete:
+
+1. `decryptLegacyNote()` in `views/scripts/otnCrypto.mjs`
+2. the CryptoJS `<script>` tag in `views/showNote.html`
+
+Nothing else refers to them, and `createNote.html` already loads no crypto
+library at all.
+
 Although the notes are encrypted when sent from/to the backend, the whole connection should still be served over HTTPS. Otherwise a MITM could catch the note ID and has access to your still encrypted note. TLS is terminated by a reverse proxy in front of the app, not by the app itself.
 
 One note (pun intended) about the noteID: One could brute force all IDs to retrieve all encrypted notes (or at least delete them). But this would take a lot of time and would leave an attacker with a set of encrypted messages. A limiter (default: 100 requests per 15 minutes per client address) prevents this; it is applied ahead of every route, including the UI and its static assets.
