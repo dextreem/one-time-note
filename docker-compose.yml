@@ -1,9 +1,22 @@
-version: '3.1'
+# LOCAL DEVELOPMENT ONLY -- this file is never deployed.
+#
+# Production builds the image from ./Dockerfile and runs it behind a reverse
+# proxy that terminates TLS; none of the settings below apply there.
+#
+# The published port is bound to 127.0.0.1 on purpose. "3000:3000" would
+# listen on every interface and expose this service to the whole network,
+# which is exactly how ports end up reachable from the internet by accident.
+# Reach it from another machine over an SSH tunnel, not by widening this.
 
 services:
   one-time-note:
+    build: .
     image: one-time-note
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     volumes:
+      # Unread notes live outside the container so that replacing the
+      # container does not destroy somebody's secret. The image runs as uid
+      # 1000, so the host directory has to be writable by it:
+      #   mkdir -p otn_data && chown 1000:1000 otn_data
       - './otn_data:/usr/src/app/notes'

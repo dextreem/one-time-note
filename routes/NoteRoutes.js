@@ -4,10 +4,13 @@ const { StatusCodes } = require('http-status-codes');
 
 const NoteHandler = require("../handlers/NoteHandler")
 const NOTES_ENDPOINT = "/notes"
+const DEFAULT_ERROR_MESSAGE = "Could not handle the note request."
 
 router.use(express.json())
 
-router.get(`${NOTES_ENDPOINT}/:noteId?`, getNote)
+// Express 5 dropped the "/:noteId?" optional-parameter syntax; "{/:noteId}"
+// is its replacement and matches the same two paths, /notes and /notes/<id>.
+router.get(`${NOTES_ENDPOINT}{/:noteId}`, getNote)
 router.post(`${NOTES_ENDPOINT}`, createNote)
 
 async function getNote(req, res) {
@@ -29,9 +32,9 @@ async function createNote(req, res) {
 }
 
 function handleNoteError(err, res) {
-    if (!err.status) err.status = StatusCodes.INTERNAL_SERVER_ERROR
-    if (!err.msg) err.msg = defaultMessage
-    res.status(err.status).send(err)
+    const status = err.status || StatusCodes.INTERNAL_SERVER_ERROR
+    const msg = err.msg || DEFAULT_ERROR_MESSAGE
+    res.status(status).send({ status, msg })
 }
 
 module.exports = router

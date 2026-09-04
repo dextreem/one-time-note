@@ -1,9 +1,9 @@
 const express = require("express")
 const router = express.Router()
 const { StatusCodes } = require('http-status-codes');
-const { render } = require("../app");
 
 const UI_ENDPOINT = "/"
+const DEFAULT_ERROR_MESSAGE = "Could not render the page."
 
 router.use(express.json())
 
@@ -17,14 +17,14 @@ async function getUi(req, res) {
             res.render('createNote.html')
         }
     } catch (err) {
-        handleNoteError(err, res)
+        handleUiError(err, res)
     }
 }
 
-function handleNoteError(err, res) {
-    if (!err.status) err.status = StatusCodes.INTERNAL_SERVER_ERROR
-    if (!err.msg) err.msg = defaultMessage
-    res.status(err.status).send(JSON.stringify(err))
+function handleUiError(err, res) {
+    const status = err.status || StatusCodes.INTERNAL_SERVER_ERROR
+    const msg = err.msg || DEFAULT_ERROR_MESSAGE
+    res.status(status).send({ status, msg })
 }
 
 module.exports = router

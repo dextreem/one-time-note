@@ -1,18 +1,29 @@
-db
-docs
-examples
+# The image is built from an explicit list of COPY paths, so this file is a
+# second line of defence: nothing here may reach the build context.
 node_modules
+npm-debug.log*
+
+# Stored notes and their test/dev counterparts. Never bake secrets, or a
+# directory that shadows the mounted volume, into the image.
+notes
+notes_test
+otn_data
+
+# Tests and tooling are not part of the runtime image.
 test
-*.bat
+.mocharc*
 *.sh
-npm-debug.log
+*.bat
+
 Dockerfile*
 docker-compose*
 .dockerignore
+
 .git
 .gitignore
+.github
+.vscode
 README.md
 LICENSE
-.vscode
-speaker_notesnotes_test
-otn_data
+docs
+examples
